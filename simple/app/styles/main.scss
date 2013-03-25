@@ -1,0 +1,21 @@
+@import 'sass-bootstrap/lib/bootstrap';
+
+#challenges li {
+    list-style: none;
+    & + li {
+        margin-top: 2em;
+    }
+}
+.challenge {
+    .log-activity {
+        &.inactive {
+            display: none;
+        }
+    }
+    .log-details {
+        display: none;
+        &.active {
+            display: block;
+        }
+    }
+}
