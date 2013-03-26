@@ -1,56 +1,68 @@
-define(['backbone', 'd3'], function (Backbone, d3) {
+define(['underscore', 'backbone', 'd3'], function (_, Backbone, d3) {
     return Backbone.View.extend({
         tagName: 'div',
 
         initialize: function () {
-            this.data = [11, 17, 23, 32, 38]
+            this.listenTo(this.collection, 'sync', _.bind(this.render, this))
+            this._chartWidth = Math.max(this.$el.width(), 300)
+            this._chartHeight = Math.max(this.$el.height(), 100)
+            this.chart = d3.select(this.el)
+            .append('svg')
+            .attr('width', this._chartWidth)
+            .attr('height', this._chartHeight)
         },
 
         render: function () {
-            var data = this.data,
-                height = 100,
-                width = 300,
+            var data = this.collection.map(function (score) {
+                    return score.get('value')
+                }),
+                height = this._chartHeight,
+                width = this._chartWidth,
                 barWidth = width / data.length,
                 barGutter = barWidth * 0.1,
                 y = d3.scale.linear()
                     .domain([0, d3.max(data)])
                     .range([height, 0]),
-                x = d3.scale.ordinal()
-                    .domain(data)
-                    .rangeBands([0, width]),
-                chart = d3.select(this.el)
-                    .append('svg')
-                    .attr('width', width)
-                    .attr('height', height)
+                chart = this.chart,
+                bars, text
 
-            chart
-            .selectAll('rect')
-            .data(data)
-            .enter()
-            .append('rect')
+            bars = chart.selectAll('rect').data(data)
+            this._renderBars(bars, data, height, barWidth, barGutter, y)
+            this._renderBars(bars.enter().append('rect'), data, height, barWidth, barGutter, y)
+
+            text = chart.selectAll('text').data(data)
+            this._renderText(text, barWidth, barGutter, y)
+            this._renderText(text.enter().append('text'), barWidth, barGutter, y)
+
+            return this
+        },
+
+        _renderBars: function (bars, data, height, barWidth, barGutter, y) {
+            bars
             .attr('width', barWidth - barGutter * 2)
+            .attr('x', function (d, i) {
+                return i * barWidth
+            })
+            .attr('height', 0)
+            .attr('y', height)
+            .transition().duration(500)
             .attr('height', function (d, i) {
                 return height - y(d)
             })
-            .attr('x', function (d, i) {
-                return x(d) + barGutter
-            })
             .attr('y', y)
+        },
 
-            chart.selectAll('text')
-            .data(data)
-            .enter().append('text')
+        _renderText: function (text, barWidth, barGutter, y) {
+            text
             .style('fill', 'white')
             .attr('y', y)
-            .attr('x', function(d) {
-                return x(d) + x.rangeBand() / 2
+            .attr('x', function(d, i) {
+                return i * barWidth + barWidth / 2 - barGutter
             })
             .attr('dx', '.5em') // padding-right
             .attr('dy', '1em') // vertical-align: middle
             .attr('text-anchor', 'end') // text-align: right
             .text(String)
-
-            return this
         }
     })
 })

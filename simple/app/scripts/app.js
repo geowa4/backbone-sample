@@ -1,6 +1,6 @@
 /*global define */
-define(['underscore', 'backbone', 'google-analytics', 'challenges-view', 'leaderboard', 'leaderboard-view', 'score-trend'], 
-function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, LeaderboardView, ScoreTrend) {
+define(['underscore', 'backbone', 'google-analytics', 'challenges-view', 'leaderboard', 'leaderboard-view', 'personal-scores', 'score-trend'], 
+function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, LeaderboardView, PersonalScores, ScoreTrend) {
     'use strict';
 
     var App = function () {
@@ -17,9 +17,15 @@ function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, Leaderboard
                 this.lv.$el.appendTo(document.getElementById('right'))
             }, this)
         })
-        this.scoreTrend = new ScoreTrend()
-        this.scoreTrend.$el.appendTo(document.getElementById('right'))
-        this.scoreTrend.render()
+        this.personalScores = new PersonalScores()
+        this.scoreTrend = new ScoreTrend({
+            collection: this.personalScores
+        })
+        this.personalScores.fetch({
+            success: _.bind(function () {
+                this.scoreTrend.$el.appendTo(document.getElementById('right'))
+            }, this)
+        })
 
         this._listen()
         this.ga.trackPageView()
@@ -37,6 +43,7 @@ function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, Leaderboard
         _listen: function () {
             var ga = this.ga, cv = this.cv, lv = this.lv,
                 leaderboard = this.leaderboard,
+                personalScores = this.personalScores,
                 gaTrackEvent = _.bind(this.ga.trackEvent, this.ga),
                 challengeEvents = ['prepare-to-log', 'logged-activity', 'canceled-logging']
             
@@ -45,6 +52,7 @@ function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, Leaderboard
             })
             lv.listenTo(cv, 'logged-activity', function () {
                 leaderboard.fetch()
+                personalScores.fetch()
             })
         }
     })
