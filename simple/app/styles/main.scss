@@ -1,9 +1,20 @@
 @import 'sass-bootstrap/lib/bootstrap';
 
-#challenges li {
-    list-style: none;
-    & + li {
-        margin-top: 2em;
+$column-width: 300px;
+$gutter-width: $column-width / 20;
+
+.span6 {
+    width: $column-width;
+    margin-left: $gutter-width;
+    margin-right: $gutter-width;
+}
+
+#challenges {
+    li {
+        list-style: none;
+        & + li {
+            margin-top: 2em;
+        }
     }
 }
 .challenge {
@@ -17,5 +28,14 @@
         &.active {
             display: block;
         }
+    }
+}
+
+.leaderboard {
+    border: 1px solid #000;
+    border-radius: 1em;
+    padding: 1em;
+    li {
+        list-style: none;
     }
 }

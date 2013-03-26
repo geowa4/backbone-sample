@@ -11,10 +11,10 @@
 
     _.extend(GA.prototype, Backbone.Events, {
         setAccount: function (account) {
-            this.GA_ACCOUNT = account
+            _gaq.push(['_setAccount', account])
         },
         trackPageView: function () {
-            _gaq.push(['_setAccount', this.GA_ACCOUNT])
+            _gaq.push(['_trackPageview'])
         },
         trackEvent: function (category, action, label) {
             _gaq.push(['_trackEvent', category, action, label])

@@ -9,7 +9,7 @@ define(['underscore', 'backbone'], function (_, Backbone) {
         },
 
         initialize: function () {
-            console.log('Initializing ChallengesView')
+            //
         },
 
         showActivityForm: function (evt) {
