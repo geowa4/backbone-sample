@@ -6,6 +6,7 @@ define(['backbone'], function (Backbone) {
             }
         }),
         yourScore = 35
+
     return Backbone.Collection.extend({
         model: Leader,
 

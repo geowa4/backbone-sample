@@ -1,6 +1,6 @@
 /*global define */
-define(['underscore', 'backbone', 'google-analytics', 'challenges-view', 'leaderboard-view'], 
-function (_, Backbone, GoogleAnalytics, ChallengesView, LeaderboardView) {
+define(['underscore', 'backbone', 'google-analytics', 'challenges-view', 'leaderboard', 'leaderboard-view'], 
+function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, LeaderboardView) {
     'use strict';
 
     var App = function () {
@@ -8,8 +8,15 @@ function (_, Backbone, GoogleAnalytics, ChallengesView, LeaderboardView) {
         this.cv = new ChallengesView({
             el: document.getElementById('challenges')
         })
-        this.lv = new LeaderboardView()
-        this.lv.render().$el.appendTo(document.getElementById('right'))
+        this.leaderboard = new Leaderboard()
+        this.lv = new LeaderboardView({
+            collection: this.leaderboard
+        })
+        this.leaderboard.fetch({
+            success: _.bind(function () {
+                this.lv.$el.appendTo(document.getElementById('right'))
+            }, this)
+        })
 
         this._listen()
         this.ga.trackPageView()
@@ -26,12 +33,16 @@ function (_, Backbone, GoogleAnalytics, ChallengesView, LeaderboardView) {
 
         _listen: function () {
             var ga = this.ga, cv = this.cv, lv = this.lv,
+                leaderboard = this.leaderboard,
                 gaTrackEvent = _.bind(this.ga.trackEvent, this.ga),
                 challengeEvents = ['prepare-to-log', 'logged-activity', 'canceled-logging']
+            
             _.each(challengeEvents, function (eventName) {
                 ga.listenTo(cv, eventName, _.partial(gaTrackEvent, eventName))
             })
-            lv.listenTo(cv, 'logged-activity', _.bind(lv.update, lv))
+            lv.listenTo(cv, 'logged-activity', function () {
+                leaderboard.fetch()
+            })
         }
     })
 
