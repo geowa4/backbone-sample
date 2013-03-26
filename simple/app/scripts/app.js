@@ -1,8 +1,10 @@
 /*global define */
-define(['backbone', 'challenges-view'], function (Backbone, ChallengesView) {
+define(['underscore', 'backbone', 'google-analytics', 'challenges-view'], 
+function (_, Backbone, GoogleAnalytics, ChallengesView) {
     'use strict';
 
     var App = function () {
+        this.ga = new GoogleAnalytics()
         this.cv = new ChallengesView({
             el: document.getElementById('challenges')
         })
@@ -17,31 +19,13 @@ define(['backbone', 'challenges-view'], function (Backbone, ChallengesView) {
         },
 
         _listenToChallenges: function () {
-            this
-            .listenTo(this.cv, 'prepare-to-log', function (challengeId) {
-                console.log('Preparing to log activity for Challenge #%d', challengeId)
-            })
-            .listenTo(this.cv, 'logged-activity', function (challengeId, msg) {
-                console.log('Logged activity for Challenge #%d: %s', challengeId, msg)
-            })
-            .listenTo(this.cv, 'canceled-logging', function (challengeId) {
-                console.log('Canceled logging for Challenge #%d', challengeId)
-            })
+            var gaTrackEvent = _.bind(this.ga.trackEvent, this.ga)
+            this.ga
+            .listenTo(this.cv, 'prepare-to-log', _.partial(gaTrackEvent, 'prepare-to-log'))
+            .listenTo(this.cv, 'logged-activity', _.partial(gaTrackEvent, 'logged-activity'))
+            .listenTo(this.cv, 'canceled-logging', _.partial(gaTrackEvent, 'canceled-logging'))
         }
     })
-
-    /*var listenToChallenges = function (cv) {
-        cv
-        .on('prepare-to-log', function (challengeId) {
-            console.log('Preparing to log activity for Challenge #%d', challengeId)
-        })
-        .on('logged-activity', function (challengeId, msg) {
-            console.log('Logged activity for Challenge #%d: %s', challengeId, msg)
-        })
-        .on('canceled-logging', function (challengeId) {
-            console.log('Canceled logging for Challenge #%d', challengeId)
-        })
-    }*/
 
     return App
 });
