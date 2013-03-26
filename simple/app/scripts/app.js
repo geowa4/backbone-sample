@@ -34,10 +34,9 @@ function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, Leaderboard
     _.extend(App.prototype, Backbone.Events, {
         kill: function () {
             this.stopListening()
-            this.cv.stopListening()
-            this.lv.stopListening()
             this.cv.remove()
             this.lv.remove()
+            this.scoreTrend.remove()
         },
 
         _listen: function () {

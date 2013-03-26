@@ -41,7 +41,7 @@ define(['underscore', 'backbone', 'd3'], function (_, Backbone, d3) {
             bars
             .attr('width', barWidth - barGutter * 2)
             .attr('x', function (d, i) {
-                return i * barWidth
+                return i * barWidth + barGutter
             })
             .attr('height', 0)
             .attr('y', height)
@@ -57,7 +57,7 @@ define(['underscore', 'backbone', 'd3'], function (_, Backbone, d3) {
             .style('fill', 'white')
             .attr('y', y)
             .attr('x', function(d, i) {
-                return i * barWidth + barWidth / 2 - barGutter
+                return i * barWidth + barWidth / 2
             })
             .attr('dx', '.5em') // padding-right
             .attr('dy', '1em') // vertical-align: middle
