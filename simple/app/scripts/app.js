@@ -1,6 +1,6 @@
 /*global define */
-define(['underscore', 'backbone', 'google-analytics', 'challenges-view', 'leaderboard', 'leaderboard-view'], 
-function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, LeaderboardView) {
+define(['underscore', 'backbone', 'google-analytics', 'challenges-view', 'leaderboard', 'leaderboard-view', 'score-trend'], 
+function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, LeaderboardView, ScoreTrend) {
     'use strict';
 
     var App = function () {
@@ -17,6 +17,9 @@ function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, Leaderboard
                 this.lv.$el.appendTo(document.getElementById('right'))
             }, this)
         })
+        this.scoreTrend = new ScoreTrend()
+        this.scoreTrend.$el.appendTo(document.getElementById('right'))
+        this.scoreTrend.render()
 
         this._listen()
         this.ga.trackPageView()

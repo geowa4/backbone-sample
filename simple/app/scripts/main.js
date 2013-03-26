@@ -3,7 +3,8 @@ require.config({
         jquery: '../components/jquery/jquery',
         bootstrap: 'vendor/bootstrap',
         underscore: '../components/underscore-amd/underscore',
-        backbone: '../components/backbone-amd/backbone'
+        backbone: '../components/backbone-amd/backbone',
+        d3: '../components/d3/d3'
     },
     shim: {
         bootstrap: {
@@ -11,7 +12,6 @@ require.config({
             exports: 'jquery'
         },
         d3: {
-            deps: [],
             exports: 'd3'
         }
     }
