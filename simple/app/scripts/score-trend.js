@@ -1,4 +1,5 @@
 define(['underscore', 'backbone', 'd3'], function (_, Backbone, d3) {
+    'use strict';
     return Backbone.View.extend({
         tagName: 'div',
 
@@ -46,7 +47,7 @@ define(['underscore', 'backbone', 'd3'], function (_, Backbone, d3) {
             .attr('height', 0)
             .attr('y', height)
             .transition().duration(500)
-            .attr('height', function (d, i) {
+            .attr('height', function (d) {
                 return height - y(d)
             })
             .attr('y', y)
@@ -56,7 +57,7 @@ define(['underscore', 'backbone', 'd3'], function (_, Backbone, d3) {
             text
             .style('fill', 'white')
             .attr('y', y)
-            .attr('x', function(d, i) {
+            .attr('x', function (d, i) {
                 return i * barWidth + barWidth / 2
             })
             .attr('dx', '.5em') // padding-right
