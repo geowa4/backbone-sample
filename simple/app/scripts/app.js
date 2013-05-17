@@ -1,5 +1,5 @@
 /*global define */
-define(['underscore', 'backbone', 'google-analytics', 'challenges-view', 'leaderboard', 'leaderboard-view', 'personal-scores', 'score-trend'], 
+define(['underscore', 'backbone', 'google-analytics', 'challenges-view', 'leaderboard', 'leaderboard-view', 'personal-scores', 'score-trend'],
 function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, LeaderboardView, PersonalScores, ScoreTrend) {
     'use strict';
 
@@ -67,7 +67,7 @@ function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, Leaderboard
                 leaderboard.fetch()
                 personalScores.fetch()
             })
-            
+
         },
 
         kill: function () {

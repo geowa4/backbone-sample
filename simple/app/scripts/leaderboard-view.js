@@ -1,4 +1,4 @@
-define(['underscore', 'backbone', 'leaderboard'], function (_, Backbone, Leaderboard) {
+define(['underscore', 'backbone', 'leaderboard'], function (_, Backbone) {
     var template = '<li class="leader-row"><%= name %>: <%= score %></li>'
     return Backbone.View.extend({
         events: {},

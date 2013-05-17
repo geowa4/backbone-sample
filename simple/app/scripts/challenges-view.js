@@ -68,7 +68,7 @@ define(['underscore', 'backbone'], function (_, Backbone) {
                 }
             }).then(function (response) {}, function (error) {})*/
             
-            // assume the AJAX call succeeded and responded with 
+            // assume the AJAX call succeeded and responded with
             // an HTML partial
             this.$el
             .find('[data-challenge-id=' + challengeId + ']')

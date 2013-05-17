@@ -1,8 +1,7 @@
 // Generated on 2013-03-25 using generator-webapp 0.1.5
-'use strict';
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
 var mountFolder = function (connect, dir) {
-    return connect.static(require('path').resolve(dir));
+    return connect['static'](require('path').resolve(dir));
 };
 
 // # Globbing
@@ -12,6 +11,7 @@ var mountFolder = function (connect, dir) {
 // 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
+    'use strict';
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
@@ -168,7 +168,7 @@ module.exports = function (grunt) {
                     // http://requirejs.org/docs/errors.html#sourcemapcomments
                     preserveLicenseComments: false,
                     useStrict: true,
-                    wrap: true,
+                    wrap: true
                     //uglify2: {} // https://github.com/mishoo/UglifyJS2
                 }
             }

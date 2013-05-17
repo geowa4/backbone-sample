@@ -46,7 +46,7 @@ define(['underscore', 'backbone', 'd3'], function (_, Backbone, d3) {
             .attr('height', 0)
             .attr('y', height)
             .transition().duration(500)
-            .attr('height', function (d, i) {
+            .attr('height', function (d) {
                 return height - y(d)
             })
             .attr('y', y)
