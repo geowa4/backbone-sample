@@ -13,15 +13,18 @@ define(['underscore', 'backbone'], function (_, Backbone) {
         },
 
         showActivityForm: function (evt) {
+
             var $logActivityButton = Backbone.$(evt.target),
                 challengeId = $logActivityButton.closest('.challenge').data('challenge-id'),
                 $logDetails = $logActivityButton.siblings('.log-details')
             this._toggleView(evt, $logActivityButton, $logDetails)
             $logDetails.find('textarea').focus()
             this.trigger('prepare-to-log', challengeId)
+
         },
 
         hideActivityForm: function (evt) {
+
             var $target = Backbone.$(evt.target),
                 $logDetails = $target.closest('.log-details'),
                 challengeId = $logDetails.closest('.challenge').data('challenge-id'),
@@ -29,15 +32,19 @@ define(['underscore', 'backbone'], function (_, Backbone) {
             $logDetails.find('textarea').val('')
             this._toggleView(evt, $logActivityButton, $logDetails)
             this.trigger('canceled-logging', challengeId)
+
         },
 
         _toggleView: function (evt, $logActivityButton, $logDetails) {
+
             evt.preventDefault()
             $logActivityButton.toggleClass('inactive')
             $logDetails.toggleClass('active')
+
         },
 
         claimAccomplishment: function (evt) {
+
             var $target = Backbone.$(evt.target),
                 $logDetails = $target.closest('.log-details'),
                 challengeId = $logDetails.closest('.challenge').data('challenge-id'),
@@ -47,6 +54,7 @@ define(['underscore', 'backbone'], function (_, Backbone) {
             $logActivityButton.hide()
             this.trigger('logged-activity', challengeId, msg)
             this._saveAccomplishment(challengeId, msg)
+
         },
 
         _saveAccomplishment: function (challengeId, msg) {

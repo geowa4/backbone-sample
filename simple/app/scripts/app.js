@@ -5,41 +5,55 @@ function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, Leaderboard
 
     var App = function () {
         this.ga = new GoogleAnalytics('UA-XXXXX-X')
-        this.cv = new ChallengesView({
-            el: document.getElementById('challenges')
-        })
-        this.leaderboard = new Leaderboard()
-        this.lv = new LeaderboardView({
-            collection: this.leaderboard
-        })
-        this.leaderboard.fetch({
-            success: _.bind(function () {
-                this.lv.$el.appendTo(document.getElementById('right'))
-            }, this)
-        })
-        this.personalScores = new PersonalScores()
-        this.scoreTrend = new ScoreTrend({
-            collection: this.personalScores
-        })
-        this.personalScores.fetch({
-            success: _.bind(function () {
-                this.scoreTrend.$el.appendTo(document.getElementById('right'))
-            }, this)
-        })
+        
+        this._initChallenges()
+        this._initLeaderboard()
+        this._initScores()
 
         this._listen()
         this.ga.trackPageView()
     }
 
     _.extend(App.prototype, Backbone.Events, {
-        kill: function () {
-            this.stopListening()
-            this.cv.remove()
-            this.lv.remove()
-            this.scoreTrend.remove()
+
+        _initChallenges: function () {
+
+            this.cv = new ChallengesView({
+                el: document.getElementById('challenges')
+            })
+        
+        },
+
+        _initLeaderboard: function () {
+
+            this.leaderboard = new Leaderboard()
+            this.lv = new LeaderboardView({
+                collection: this.leaderboard
+            })
+            this.leaderboard.fetch({
+                success: _.bind(function () {
+                    this.lv.$el.appendTo(document.getElementById('right'))
+                }, this)
+            })
+
+        },
+
+        _initScores: function () {
+
+            this.personalScores = new PersonalScores()
+            this.scoreTrend = new ScoreTrend({
+                collection: this.personalScores
+            })
+            this.personalScores.fetch({
+                success: _.bind(function () {
+                    this.scoreTrend.$el.appendTo(document.getElementById('right'))
+                }, this)
+            })
+
         },
 
         _listen: function () {
+
             var ga = this.ga, cv = this.cv, lv = this.lv,
                 leaderboard = this.leaderboard,
                 personalScores = this.personalScores,
@@ -53,6 +67,14 @@ function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, Leaderboard
                 leaderboard.fetch()
                 personalScores.fetch()
             })
+            
+        },
+
+        kill: function () {
+            this.stopListening()
+            this.cv.remove()
+            this.lv.remove()
+            this.scoreTrend.remove()
         }
     })
 
