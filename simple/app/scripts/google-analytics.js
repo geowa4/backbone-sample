@@ -1,12 +1,19 @@
 !(function (factory) {
-  if (typeof module !== 'undefined' && typeof module.exports === 'object')
-    module.exports = factory(require('underscore'), require('backbone'))
-  else if (typeof define === 'function' && define.amd) define(['underscore', 'backbone'], factory)
-  else this['GA'] = factory(this['_'], this['Backbone'])
+    'use strict';
+    if (typeof module !== 'undefined' && typeof module.exports === 'object') {
+        module.exports = factory(require('underscore'), require('backbone'))
+    }
+    else if (typeof define === 'function' && define.amd) {
+        define(['underscore', 'backbone'], factory)
+    }
+    else {
+        this.GA = factory(this._, this.Backbone)
+    }
 } (function (_, Backbone) {
+    'use strict';
     var GA = function (account) {
             this._gaq = window._gaq || (window._gaq = [])
-            if (account) this.setAccount(account)
+            if (account) { this.setAccount(account) }
         }
 
     _.extend(GA.prototype, Backbone.Events, {

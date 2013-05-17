@@ -1,4 +1,5 @@
 define(['backbone'], function (Backbone) {
+    'use strict';
     var Leader = Backbone.Model.extend({
             defaults: {
                 name: 'Name',

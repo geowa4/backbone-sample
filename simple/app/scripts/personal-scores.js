@@ -1,4 +1,6 @@
 define(['backbone'], function (Backbone) {
+    'use strict';
+
     var Score = Backbone.Model.extend({
             defaults: {
                 value: 0
