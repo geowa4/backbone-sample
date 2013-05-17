@@ -67,7 +67,7 @@ function (_, Backbone, GoogleAnalytics, ChallengesView, Leaderboard, Leaderboard
                 leaderboard.fetch()
                 personalScores.fetch()
             })
-            
+
         },
 
         kill: function () {
